@@ -1,4 +1,4 @@
-\documentclass[a4paper, 7pt, landscape]{scrartcl}
+\documentclass[a4paper, 6pt, landscape]{scrartcl}
 \usepackage[german]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{multicol}
@@ -18,6 +18,7 @@
 \usepackage{amssymb}
 \usepackage{listings}
 \usepackage{graphicx}
+\usepackage{graphicx}
 
 %Define Math Commands:
 \newcommand*{\field}[1]{\mathbb{#1}}%
@@ -34,13 +35,24 @@
 
 \definecolor{javared}{rgb}{0.6,0,0} % for strings
 
+\lstdefinelanguage{JavaScript}{
+keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+ndkeywords={class, export, boolean, throw, implements, import, this},
+ndkeywordstyle=\color{darkgray}\bfseries,
+identifierstyle=\color{black},
+sensitive=false,
+comment=[l]{//},
+morestring=[b]',
+morestring=[b]"
+}
+
 \lstset{
-language=C,
-basicstyle=\fontsize{7}{7} \ttfamily,
+language=JavaScript,
+basicstyle=\fontsize{6}{6} \ttfamily,
 keywordstyle=\bfseries\color{RoyalBlue},
 stringstyle=\color{javared},
 commentstyle=\color{MidnightBlue},
-morecomment=[s][\color{MidnightBlue}]{/**}{*/},
+morecomment=[s][\color{MidnightBlue}]{/*}{*/},
 tabsize=2,
 showspaces=false,
 showstringspaces=false,
@@ -95,9 +107,10 @@ belowskip = 0em
     %	\color{t}
     \setlength{\columnseprule}{0.4pt}
     \footnotesize
-    \begin{multicols*}{3}
+    \begin{multicols*}{4}
 
         \input{content/01_introduction_spa.tex}
+        \input{content/02_react.tex}
 
     \end{multicols*}
 \end{document}
