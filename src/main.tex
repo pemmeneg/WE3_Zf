@@ -1,0 +1,127 @@
+\documentclass[a4paper, 7pt, landscape]{scrartcl}
+\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{index}
+\usepackage{sectsty}
+\usepackage{mwe}
+\usepackage{comment}
+\usepackage{lipsum}
+\usepackage{titlesec}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+
+%Define Math Commands:
+\newcommand*{\field}[1]{\mathbb{#1}}%
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+%Image Folder:
+\graphicspath{{../img/}}
+
+%format
+\geometry{top=0.4cm,left=0.5cm,right=0.5cm,bottom=0.4cm}
+\setlist{topsep=0pt, leftmargin=5mm, nolistsep}
+
+% Code Snippets
+
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+
+\lstset{
+language=C,
+basicstyle=\fontsize{7}{7} \ttfamily,
+keywordstyle=\bfseries\color{RoyalBlue},
+stringstyle=\color{javared},
+commentstyle=\color{MidnightBlue},
+morecomment=[s][\color{MidnightBlue}]{/**}{*/},
+tabsize=2,
+showspaces=false,
+showstringspaces=false,
+texcl = true,
+rulecolor = \color{black},
+breaklines = true,
+aboveskip = 0em,
+belowskip = 0em
+}
+
+
+
+
+% Define Section Format
+\titleformat{name=\section}[block]
+{\sffamily\normalsize}
+{}
+{0pt}
+{\colorsection}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+
+\newcommand{\colorsection}[1]{%
+\colorbox{MidnightBlue!40}{\parbox{0.98\linewidth}{\color{black}\thesection\ #1}}}
+
+
+% Define Subsection Format
+\titleformat{name=\subsection}[block]
+{\sffamily\small}
+{}
+{0pt}
+{\colorsubsection}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+\newcommand{\colorsubsection}[1]{%
+\colorbox{YellowGreen!50}{\parbox{0.98\linewidth}{\color{black}\thesubsection\ #1}}}
+
+% Define SubSubsection Format
+\titleformat{name=\subsubsection}[block]
+{\sffamily\small}
+{}
+{0pt}
+{\colorsubsubsection}
+\titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
+
+\newcommand{\colorsubsubsection}[1]{%
+\colorbox{Goldenrod!50}{\parbox{0.98\linewidth}{\color{black}\thesubsubsection\ #1}}}
+
+
+% -----------------------------------------------------------------------
+\begin{document}
+    %	\pagecolor{p}
+    %	\color{t}
+    \setlength{\columnseprule}{0.4pt}
+    \footnotesize
+    \begin{multicols*}{3}
+
+        \input{../content/01_introduction_spa.tex}
+
+    \end{multicols*}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
