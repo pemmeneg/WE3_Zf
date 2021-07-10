@@ -82,3 +82,212 @@ const increment = () => {
     \item Alter und neuer DOM werden verglichen
     \item Erst dann werden geänderte DOM-Knoten im Browser erstellt
 \end{enumerate}
+
+\subsection{Formulare}
+\subsubsection{Input Handling}
+\begin{lstlisting}
+<form onSubmit={this.handleSubmit}>
+<input value={this.state.username}
+        onChange={this.handleUsernameChange} //...
+</form>
+handleUsernameChange = (event) => {
+    this.setState({username: event.target.value});
+};
+handleSubmit = (event) => {
+    event.preventDefault();
+    //...
+}
+\end{lstlisting}
+
+\subsection{Komponenten Lifecycle}
+\includegraphics[width=0.7\linewidth]{img/react_lifecycle.png}
+\subsubsection{Mounting}
+\includegraphics[width=0.7\linewidth]{img/react_mounting.png}
+
+\subsubsection{Updating}
+\includegraphics[width=0.7\linewidth]{img/react_updating.png}
+
+\subsubsection{Unmounting}
+\includegraphics[width=0.6\linewidth]{img/react_unmounting.png}
+
+\subsubsection{Error Handling}
+\includegraphics[width=0.7\linewidth]{img/react_error_handling.png}
+
+\subsection{React Router}
+\begin{itemize}
+    \item Komponentenbibliothek
+    \item Komponenten anzeigen oder verstecken abhängig von der URL
+    \item Für React Web und React Native
+\end{itemize}
+
+\subsubsection{Router Komponenten}
+\begin{lstlisting}
+<Router>
+\end{lstlisting}
+Alle Routen müssen Teil des Routers sein, typischerweise nahe der Root-Komponente
+\begin{lstlisting}
+<Route exact path="/" component={Home} />
+\end{lstlisting}
+Home-Komponente wird nur gerendert, wenn der path (exakt) matcht.
+Mehrere Route Elemente können gleichzeitig aktiv sein.
+\begin{lstlisting}
+<Link to="/">Home</Link>
+\end{lstlisting}
+App-interne Links, welche nicht wie \textless a \textgreater die Seite neu laden.
+\begin{lstlisting}
+<Redirect to="/somewhere/else">
+\end{lstlisting}
+Wird ausgeführt, sobald gerendert.
+
+\subsection{Hooks}
+\textbf{Problem von Lifecycle Methoden}
+Zusammengehörender Code ist auf mehrere Methoden verteilt (Mount/Unmount).\\
+\textbf{Problem von Klassen-State}
+State ist über verschiedene Methoden verteilt\\
+\textbf{Fazit:}
+\begin{itemize}
+    \item Lifecycle und State ohne Klassen machen react verständlicher
+    \item Klassen sind weiterhin unterstützt
+    \item Hooks erlauben, Logik mit Zustand einfacher wiederzuverwenden
+\end{itemize}
+
+\subsubsection{State Hook}
+\begin{lstlisting}
+function Counter() {
+    const [count, setCount] = useState(0);
+    // button => setCount(count + 1)
+    return( <p>{count}</p> );
+}
+\end{lstlisting}
+\textbf{Mehrere State-Variablen:} useState Aufrufe müssen immer in derselben Reihenfolge gemacht werden.
+
+\subsubsection{Effect Hook}
+\begin{lstlisting}
+useEffect(() => {
+    // Mount stuff
+    return () => {
+        // Unmount stuff
+    }
+}, [] /* <= Dependencies */);
+\end{lstlisting}
+
+\subsection{Flow}
+\begin{itemize}
+    \item Erweitert JavaScript um Typenannotationen
+    \item Typ-Annotation im Code Typ-Inferenz für lokale Definitionen
+    \item Generics, Maybe-Types, Union and Intersection-Types
+\end{itemize}
+
+\subsection{TypeScript und React}
+\begin{itemize}
+    \item Mehr Typensicherheit in React-Komponenten
+    \item Props und State lassen sich typisieren
+\end{itemize}
+\textbf{Vorteil gegenüber Flow:}
+\begin{itemize}
+    \item Vollwertige Programmiersprache
+    \item Besser unterstützt von Libraries und IDEs
+    \item TypeScript Fehler müssen korrigiert werden
+\end{itemize}
+
+\subsection{React Context}
+Ermöglicht es, Props für alle Unterkomponenten zur Verfügung zu stellen. (Theme Variablen)
+\begin{lstlisting}
+// provider
+const c = React.createContext(themes.light);
+const theme = useContext(c); // consumer
+\end{lstlisting}
+
+\subsection{Redux}
+Library für Statemanagement (Repräsentation / Veränderung / Benachrichtigung).
+State wird als Tree (immutable) von Objekten dargestellt.
+Veränderung am Tree führt durch den Reducer zu einem neuen Tree t+1 (funktionale Programmierung).
+State wird im \textbf{Store} verwaltet.
+
+\subsubsection{Actions}
+Benötigt um Stateänderungen zu machen.
+Wird an den Store gesendet / dispatched.
+Action ist eine reine Beschreibung der Action.
+\begin{lstlisting}
+{type: 'TRANSFER', amount: 100 }
+\end{lstlisting}
+
+\subsubsection{Reducer}
+Pure Funktionen, haben keine Seiteneffekte.
+\begin{lstlisting}
+function balance(state = 0, action) {
+    switch (action.type) {
+        case 'TRANSFER':
+            return (state + action.amount);
+        default:
+            return state;
+    }
+}
+\end{lstlisting}
+\textbf{Reducer kombinieren:} Jeder Reducer erhält einen Teil des States, für den er zuständig ist.
+Resultat wird in einem neuen State-Objekt kombiniert.
+\begin{lstlisting}
+function rootReducer(state = {}, action) {
+    return {
+        balance: balance(state.balance, action),
+        transactions: transactions(state.transactions, action)
+    }
+}
+// Hilfsfunktion combineReducers:
+const rootReducer = combineReducers({
+    balance, transactions
+});
+\end{lstlisting}
+
+\subsubsection{Store erstellen}
+\begin{lstlisting}
+const store = createStore(rootReducer);
+\end{lstlisting}
+Mit dem root-Reducer kann der Store erstellt werden.
+In Kombination mit React führt das zu einem re-rendering der Komponenten.
+
+\subsection{React \textless 3 Redux}
+\textbf{Redux mit React verbinden:}
+\begin{lstlisting}
+const mapStateToProps = (state) => {
+    return {
+        transactions: state.transactions
+    }
+}
+const mapDispatchToProps = {
+    fetchTransactions
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Component);
+
+// Root Komponente
+const store = createStore(
+    rootReducer, applyMiddleware(thunkMiddleware));
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>
+    document.getElementById('root')
+)
+\end{lstlisting}
+\textit{mapStateToProps:} erhält State und kann daraus Props ableiten.\\
+Die Komponente bekommt auch die \textit{dispatch} Methode des Stores als Prop.
+Das Resultat von \textit{connect} ist eine React-Komponente die mit dem Store verbunden ist.\\
+Store muss der Root-Komponente mitgegeben werden.\\
+\textit{thunkMiddleware:} Erlaubt es, anstelle eines Objektes eine Funktion zu dispatchen (benötigt für asynchrone Actions).
+
+\subsubsection{Thunk Actions}
+\begin{lstlisting}
+function fetchTransactions(token) {
+    return (dispatch, getState) => {
+        dispatch({type: "FETCH_TRANSACTIONS_STARTED"});
+        api.getTransactions(token)
+            .then(({result: transactions}) => {
+                dispatch({type: "FETCH_TRANSACTIONS_SUCCEEDED", transactions});
+            })
+    };
+}
+\end{lstlisting}
+
+\subsubsection{Selectors}
+Getter bei den Reducern, die einen Subtree des Stores zurückgeben.
+Wissen über den Aufbau des State-Trees bleibt bei den Reducern.
