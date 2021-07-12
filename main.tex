@@ -11,7 +11,6 @@
 \usepackage{mwe}
 \usepackage{comment}
 \usepackage{lipsum}
-\usepackage[dvipsnames]{xcolor}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{listings}
@@ -31,7 +30,16 @@
 \definecolor{javared}{rgb}{0.6,0,0} % for strings
 \definecolor{lightgray}{rgb}{.9,.9,.9}
 \definecolor{darkgray}{rgb}{.4,.4,.4}
-
+% define color
+\definecolor{sectionColor}{HTML}{7cbad4}
+\definecolor{subSectionColor}{HTML}{c7e5b6}
+\definecolor{subSubSectionColor}{HTML}{ffeca9}
+\definecolor{royalBlue}{HTML}{4A1FBF}
+\definecolor{midnightBlue}{HTML}{191970}
+\definecolor{codeBackground}{RGB}{245,245,245}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{darkGreen}{RGB}{0,150,0}
+\definecolor{DarkPurple}{rgb}{0.4, 0.1, 0.4}
 \lstdefinelanguage{JavaScript}{
 keywords={const, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
 ndkeywords={class, export, boolean, throw, implements, import, this},
@@ -46,10 +54,10 @@ morestring=[b]"
 \lstset{
 language=JavaScript,
 basicstyle=\fontsize{6}{6} \ttfamily,
-keywordstyle=\bfseries\color{RoyalBlue},
+keywordstyle=\bfseries\color{royalBlue},
 stringstyle=\color{javared},
-commentstyle=\color{MidnightBlue},
-morecomment=[s][\color{MidnightBlue}]{/*}{*/},
+commentstyle=\color{royalBlue},
+morecomment=[s][\color{royalBlue}]{/*}{*/},
 tabsize=2,
 showspaces=false,
 showstringspaces=false,
@@ -61,36 +69,11 @@ aboveskip = 0em,
 belowskip = 0em
 }
 
-% define color
-\definecolor{sectionColor}{HTML}{7cbad4}
-\definecolor{subSectionColor}{HTML}{c7e5b6}
-\definecolor{subSubSectionColor}{HTML}{ffeca9}
-\definecolor{codeBackground}{RGB}{245,245,245}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{darkGreen}{RGB}{0,150,0}
-\definecolor{DarkPurple}{rgb}{0.4, 0.1, 0.4}
-
 
 % Define Section Format
 % define section format
 \usepackage{sectsty}
 \usepackage{titlesec}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
 
 \titleformat{name=\section}[block]{\sffamily\small}{}{0pt}{\colorsection}
 \titlespacing*{\section}{0pt}{0pt}{0pt}
