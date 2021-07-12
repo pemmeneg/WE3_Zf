@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
 \usepackage{multicol}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{enumitem}
@@ -81,52 +81,17 @@ belowskip = 0em
 \newcommand{\colorsection}[1]{%
 \colorbox{sectionColor!80}{\parbox{0.98\linewidth}{\vspace{-1pt}\color{black}\ #1 \vspace{-2pt}}}}
 
-
-%\newcommand{\colorsection}[1]{%
-%\colorbox{MidnightBlue!40}{\parbox{0.98\linewidth}{\color{black}\thesection\ #1}}}
-
-%\titleformat{name=\section}[block]
-%{\sffamily\normalsize}
-%{}
-%{0pt}
-%{\colorsection}
-%\titlespacing*{\section}{0pt}{0pt}{0pt}
-
-
-
 % Define Subsection Format
 \titleformat{name=\subsection}[block]{\sffamily\small}{}{0pt}{\colorsubsection}
 \titlespacing*{\subsection}{0pt}{0pt}{0pt}
 \newcommand{\colorsubsection}[1]{%
 \colorbox{subSectionColor!80}{\parbox{0.98\linewidth}{\vspace{-1pt}\color{black}\ #1 \vspace{-2pt}}}}
-%\newcommand{\colorsubsection}[1]{%
-%\colorbox{YellowGreen!50}{\parbox{0.98\linewidth}{\color{black}\thesubsection\ #1}}}
-
-%\titleformat{name=\subsection}[block]
-%{\sffamily\small}
-%{}
-%{0pt}
-%{\colorsubsection}
-%\titlespacing*{\subsection}{0pt}{0pt}{0pt}
 
 % Define SubSubsection Format
 \titleformat{name=\subsubsection}[block]{\sffamily\small}{}{0pt}{\colorsubsubsection}
 \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
 \newcommand{\colorsubsubsection}[1]{%
 \colorbox{subSubSectionColor!60}{\parbox{0.98\linewidth}{\vspace{-1pt}\color{black}\ #1 \vspace{-2pt}}}}
-
-%\newcommand{\colorsubsubsection}[1]{%
-%\colorbox{Goldenrod!50}{\parbox{0.98\linewidth}{\color{black}\thesubsubsection\ #1}}}
-
-%\titleformat{name=\subsubsection}[block]
-%{\sffamily\small}
-%{}
-%{0pt}
-%{\colorsubsubsection}
-%\titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
-
-
-
 
 % -----------------------------------------------------------------------
 \begin{document}

@@ -103,7 +103,10 @@ Most important events are \textbf{ngOnInit} (Creation / Hydration) and \textbf{n
 \textbf{ngAfter...} events are mainly for control developers to handle sub-components and their DOM.
 To hook into the lifecycle, interfaces of the Angular core can be implemented.
 Each interface has a single hook method, prefixed with \textit{ng}. (\textbf{OnInit} contains method \textit{ngOnInit}).\\
-\includegraphics[width=\linewidth]{img/angular_component_lifecycle2.png}
+
+\endgroup
+\includegraphics[width=0.7\linewidth]{img/angular_component_lifecycle2.png}
+
 
 \subsubsection{Content Projection}
 \includegraphics[width=\linewidth]{img/angular_content_projection.png}
@@ -241,7 +244,7 @@ const appRoutes: Routes = [
     // redirect
     {path: '', redirectTo: '/heroes', pathMatch: 'full'},
     // Wildcard route
-    {path: '**', component: PageNotFound}  
+    {path: '**', component: PageNotFound}
 ];
 \end{lstlisting}
 The router uses a first-match-wins strategy.\\
