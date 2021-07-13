@@ -41,6 +41,8 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{darkGreen}{RGB}{0,150,0}
 \definecolor{DarkPurple}{rgb}{0.4, 0.1, 0.4}
+
+\lstdefinestyle{sharpc}{language=[Sharp]C}
 \lstdefinelanguage{JavaScript}{
 keywords={const, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
 ndkeywords={class, export, boolean, throw, implements, import, this},
@@ -75,6 +77,9 @@ belowskip = 0em
 % define section format
 \usepackage{sectsty}
 \usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{graphicx}
+\usepackage{graphicx}
 
 \titleformat{name=\section}[block]{\sffamily\small}{}{0pt}{\colorsection}
 \titlespacing*{\section}{0pt}{0pt}{0pt}
@@ -104,6 +109,7 @@ belowskip = 0em
         \input{content/05_firebase.tex}
         \input{content/06_angular.tex}
         \input{content/11_pwa.tex}
+        \input{content/12_aps_net_core.tex}
 
     \end{multicols*}
 \end{document}
