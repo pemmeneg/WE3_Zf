@@ -11,26 +11,20 @@ SDKs für diverse Plattformen.
 Vorgefertigte UI Libraries
 
 \subsection{Firebase Hosting}
-Einfaches Hosting für statischen Content.
-\begin{itemize}
-    \item Immer per HTTPS ausgeliefert
-    \item Automatisches Caching in CDNs
-\end{itemize}
-Dynamischer Content nur über \textbf{Cloud Function}, wenn das nicht reicht:
-\begin{itemize}
-    \item PaaS: Google App Engine
-    \item Docker: Google Container oder Kubernetes Engine
-\end{itemize}
+Einfaches Hosting für \textbf{statischen Content}:
+Immer per HTTPS ausgeliefert.
+Automatisches Caching in CDNs.
+\textbf{Dynamischer Content}: nur über \textbf{Cloud Function}, wenn das nicht reicht:
+PaaS: Google App Engine,
+Docker: Google Container oder Kubernetes Engine.
 
 \subsubsection{Serverless Computing}
-Cloud Provider verwaltet Functions:
-\begin{itemize}
-    \item Deployment geschieht on-demand
-    \item Plattform bestimmt die Parallelisierung
-    \item Entwickler hat keine Kontrolle über laufende Instanzen
-    \item Funktionen sind Stateless
-    \item Abgerechnet werden Aufrufe und Laufzeit der Funktion
-\end{itemize}
+\textbf{Cloud Provider verwaltet Functions:}
+Deployment geschieht on-demand.
+Plattform bestimmt die Parallelisierung.
+Entwickler hat keine Kontrolle über laufende Instanzen.
+Funktionen sind Stateless.
+Abgerechnet werden Aufrufe und Laufzeit der Funktion.
 \textbf{Limitationen:} Ausführungszeit / Memory begrenzt.
 Teilweise hohe Latenz.
 
@@ -39,36 +33,12 @@ Teilweise hohe Latenz.
 Administration (Cron Jobs), REST API für Mobile und SPAs zur Verfügung stellen.
 
 \subsubsection{Cloud Firestore}
-\begin{itemize}
-    \item NoSQL, document-oriented database
-    \item DB besteht aus mehreren Collections mit Documents
-    \item Document ist ein JSON-Objekt
-    \item Document kann Collections beinhalten
-    \item Vergleichbar mit MongoDB
-    \item Stark eingeschränkte Queries (keine Volltextsuche)
-\end{itemize}
-\begin{lstlisting}
-// Auf Collections / Documents zugreifen
-const colRef = db.collection("todos");
-const docRef = db.collection("todos").doc("...");
-// Dokumente erstellen
-db.collection("todos").add({text: "..."});
-// Dokument bearbeiten
-.doc("...").update({text: "..."});
-// Daten Abfragen
-db.collection("todos").doc("...").get().then(d => {
-    if(!doc.exists) { /* ... */ }
-    else { console.log(d.data()); }
-}).catch(err => { /* ... */ });
-// Daten abfragen mit Filter
-db.collection("todos").where("checked", "==", true)
-    .orderBy("createdAt").get().then(snapshot => {
-// ...
-});
-\end{lstlisting}
-
-\subsubsection{NoSQL One-To-Many}
-\includegraphics[width=0.6\linewidth]{img/nosql_one_to_many.png}
+NoSQL, document-oriented database.
+DB besteht aus mehreren Collections mit Documents.
+Document ist ein JSON-Objekt.
+Document kann Collections beinhalten.
+Vergleichbar mit MongoDB.
+Stark eingeschränkte Queries (keine Volltextsuche).
 
 \subsubsection{NoSQL Many-To-Many}
 \begin{itemize}
@@ -81,5 +51,3 @@ db.collection("todos").where("checked", "==", true)
 \end{itemize}
 \textbf{Kopieren der Daten:} muss kein Nachteil sein.
 Preisänderung eines Produktes hat keinen Einfluss auf vergangene Bestellungen.
-Adressänderung eines Kunden verändert keine alten Bestellungen.
-Kopierte Daten können mittels Trigger und Cloud Function wieder synchronisiert werden.

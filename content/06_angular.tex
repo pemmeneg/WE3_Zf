@@ -2,16 +2,11 @@
 %! Date = 12/07/2021
 
 \section{Angular}
-Flexible SPA Framework for CRUD applications
-\begin{itemize}
-    \item Typescript 4.1 based
-    \item Reduces boilerplate Code
-    \item Dependency Injection Mechanism
-    \item JS-optimized 2-way binding
-    \item Clearly structured, information hiding
-    \item Increases testability / maintainability of client-side code
-\end{itemize}
-
+Flexible SPA Framework for CRUD applications.
+Dependency Injection Mechanism.
+JS-optimized 2-way binding.
+Clearly structured, information hiding.
+Increases testability / maintainability of client-side code.
 
 \subsection{Architecture}
 \textbf{ngModules:} Cohesive block of code dedicated to closely related set of capabilities. (\textit{module})
@@ -52,8 +47,6 @@ They become accessible in all parts of the app.\\
 Only the root module should set this property.
 
 \subsubsection{Module Types}
-\textbf{Root / App Module:} Provides the entry point (bootstrap component) for the app.
-Has no reason to export anything.
 \textbf{Feature Modules:} Specifies boundaries between app features.
 \begin{itemize}
     \item Domain Modules: Deliver a UI dedicated to a app domain
@@ -79,15 +72,7 @@ Manages the view and binds data from the model. Consists of:
     \item (S)CSS file, styles behind HTML
 \end{itemize}
 Can be nested, results in Component tree.\\
-Provide \textbf{Information Hiding:}
-\begin{itemize}
-    \item Each Component declares part of the UI
-    \item Should be implemented as small coherent piece to support:
-    \begin{itemize}
-        \item Testability, Maintainability, Reusability
-    \end{itemize}
-\end{itemize}
-\includegraphics[width=\linewidth]{img/angular_component_declaration.png}
+Provide \textbf{Information Hiding.}\\
 Components must be declared within the containing module so its \textbf{selector} is registered for all sub-components of that module.
 They can be exported, so other modules can import and use then.
 
@@ -112,20 +97,13 @@ Each interface has a single hook method, prefixed with \textit{ng}. (\textbf{OnI
 \includegraphics[width=\linewidth]{img/angular_content_projection.png}
 
 \subsection{Templates}
-View in MVC.
-Written in HTML annotated with Angular \textbf{template syntax}:
-\begin{itemize}
-    \item HTML5 except script-Tag
-    \item Angular extends the HTML with
-    \begin{itemize}
-        \item Interpolation (\textit{{{...}}})
-        \item Template Expression/Statements
-        \item Binding Syntax
-        \item Directives
-        \item Template Reference Variables
-        \item Template Expression Operators
-    \end{itemize}
-\end{itemize}
+ Angular \textbf{extends the HTML5} with:
+Interpolation (\textit{{{...}}}),
+Template Expression/Statements,
+Binding Syntax,
+Directives,
+Template Reference Variables,
+Template Expression Operators
 
 \subsubsection{Binding}
 \includegraphics[width=\linewidth]{img/angular_bindings.png}
@@ -273,7 +251,6 @@ Must be converted into a hot Observable (\textit{share()}).\\
 Invented by Facebook.
 Enforces a unidirectional data flow.
 More of a pattern that a formal framework.
-\includegraphics[width=\linewidth]{img/angular_flux_pattern.png}
 
 \subsubsection{Redux Architecture}
 \textbf{ngrx:} implements the Redux pattern using RxJS.
@@ -293,7 +270,6 @@ More of a pattern that a formal framework.
 
 \subsection{UI Advanced}
 \subsubsection{Pipes}
-Can be applied within a template expression to make small transformations.
 \begin{lstlisting}
 <p>{{counter.team | uppercase}}</p>
 <p>{{counter.team | uppercase | lowercase}}</p>
@@ -324,8 +300,6 @@ The selectors of a component's styles apply only within this own template.\\
     \item \textit{:host} - Target styles in the element that hosts the component
     \item \textit{:host-context} - Looks for a CSS class in any ancestor of the host element
 \end{itemize}
-\textbf{Link Styles to Component - Options:}\\
-\includegraphics[width=\linewidth]{img/angular_link_styles.png}
 \textbf{Controlling View Encapsulation:}
 \begin{itemize}
     \item \textit{Native:} Uses the browsers native shadow DOM

@@ -69,7 +69,6 @@ public class UserMiddleware {
         await context.Response.WriteAsync(string.Join(", ", userService.Users));
     }
 }
-    //
 \end{lstlisting}
 \subsubsection{Lifetime}
 \textbf{Transient:} Created each time they are requested.
@@ -189,7 +188,6 @@ public class HelloWorldModel : PageModel {
         HelloWorld = "Hi World!";
     }
 }
-    //
 \end{lstlisting}
 
 \subsubsection{Model}
@@ -419,21 +417,3 @@ Funktioniert über Attribute. \textit{[Route]} definiert einen neuen Eintrag im 
 \textit{[HttpMethod]} bei Actions ist required.\\
 \includegraphics[width=0.45\linewidth]{img/asp_api_routing.png}
 \includegraphics[width=0.55\linewidth]{img/asp_api_routing2.png}
-
-\subsection{Swagger}
-Eine Spezifikation für die Dokumentation von REST APIs.
-Programmiersprachen unabhängig.
-Wird im \textit{Startup.cs} eingetragen.
-Defaultmässig unter \textit{http://[server-name]/swagger} erreichbar.
-C\# ermöglicht es Kommentare als XML zu exportieren.
-Dieses XML-File kann von Swagger genutzt werden um die API zu beschreiben.
-\includegraphics[width=\linewidth]{img/asp_swagger.png}
-
-\subsection{REST HATEOAS}
-\textbf{Idee:} Verlinkte Daten als Links zu Verfügung stellen.
-
-\subsection{Exception Handling}
-Error Handling soll generisch funktionieren.\\
-\textbf{Vorgehen:} Es gibt eine Exception, welche die notwendigen Daten sammelt.
-Es gibt einen globalen Errorhandler, welcher diese Exception für Client aufbereitet.
-Bei einem ungültigen Zustand wird Custom-Exception ausgelöst.

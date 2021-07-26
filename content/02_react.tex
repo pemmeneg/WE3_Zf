@@ -2,14 +2,11 @@
 %! Date = 09/07/2021
 
 \section{React}
-\begin{itemize}
-    \item Library, kein Framework
-    \item Um User Interfaces zu bauen
-    \item View in MVC
-    \item Minimales Featureset
-    \item Entwickelt von Facebook
-    \item Verwendet für: WhatsApp, Insta, AirBnb, etc.
-\end{itemize}
+Library, kein Framework.
+Um UIs zu bauen.
+View in MVC.
+Minimales Featureset.
+
 \subsubsection{Prinzipien}
 \begin{itemize}
     \item Komplexes Problem aufteilen in einfachere Komponenten
@@ -17,11 +14,9 @@
 \end{itemize}
 
 \subsection{Entwicklung von UIs}
-\begin{itemize}
-    \item Beschreibung des UIs
-    \item Event-Handling
-    \item Aktualisieren der Views
-\end{itemize}
+Beschreibung des UIs.
+Event-Handling.
+Aktualisieren der Views.
 
 \subsection{Komponenten und Elemente}
 \begin{itemize}
@@ -36,19 +31,13 @@ React verwendet JSX (blau), eine Erweiterung von JavaScript (gelb).
 \includegraphics[width=0.6\linewidth]{img/react_jsx.png}\\
 \textbf{Styles:} werden nicht als Strings sondern als Object angegeben.
 
-\subsubsection{Conditionals}
-\includegraphics[width=0.7\linewidth]{img/react_jsx_conditionals.png}
-
 \subsubsection{Props}
 Komponenten erhalten alle Parameter/Properties als \textbf{props} Objekt.
-\begin{itemize}
-    \item $this.props$ bei Klassen
-    \item Bei Funktionen als Parameter
-    \item Immer \textbf{read-only}
-\end{itemize}
+$this.props$ bei Klassen.
+Bei Funktionen als Parameter.
+Immer \textbf{read-only}.
 
 \subsubsection{Rendering und Mounting}
-\textbf{Mounting:} nötig um Komponenten auf Webseite anzuzeigen. \textit{ReactDOM.render}
 \begin{lstlisting}
 ReactDOM.render(
     <App/>
@@ -57,8 +46,8 @@ ReactDOM.render(
 \end{lstlisting}
 
 \subsection{React State}
-React-Klassenkomponenten können einen veränderbaren Zustand haben.
-Der \textbf{state} einer Komponente ist immer privat.
+Veränderbarer Zustand von Komponenten.
+Ist immer privat.
 Ändert der State, wird auch die Komponente aktualisiert.
 \begin{lstlisting}
 class Counter extends React.Component {
@@ -83,53 +72,40 @@ const increment = () => {
     \item Erst dann werden geänderte DOM-Knoten im Browser erstellt
 \end{enumerate}
 
-\subsection{Formulare}
-\subsubsection{Input Handling}
-\begin{lstlisting}
-<form onSubmit={this.handleSubmit}>
-<input value={this.state.username}
-        onChange={this.handleUsernameChange} //...
-</form>
-handleUsernameChange = (event) => {
-    this.setState({username: event.target.value});
-};
-handleSubmit = (event) => {
-    event.preventDefault();
-    //...
-}
-\end{lstlisting}
-
 \subsection{Komponenten Lifecycle}
-\includegraphics[width=0.7\linewidth]{img/react_lifecycle.png}
 \subsubsection{Mounting}
-\includegraphics[width=0.7\linewidth]{img/react_mounting.png}
+\textbf{1. constructor(props):} State initialisieren, sonst weglassen.
+\textbf{2. getDerivedStateFromProps(props, state):} Von state abhängige Props initialisieren.
+\textbf{3. render()}
+\textbf{4. componentDidMount():} DOM ist aufgebaut. Guter Punkt um Async Daten zu laden. \textit{setState} führt zu re-rendering.
 
 \subsubsection{Updating}
-\includegraphics[width=0.7\linewidth]{img/react_updating.png}
+\textbf{1. getDerivedStateFromProps(props, state):} Von state abhängige Props aktualisieren.
+\textbf{2. shouldComponentUpdate(nextProps, nextState):} render übersprungen bei false.
+\textbf{3. render()}
+\textbf{4. getSnapshotBeforeUpdate(prevProps, prevState)}
+\textbf{5. componentDidUpdate(prevProps, prevState, snapshot):} Analog zu DidMount, DOM ist aktualisiert.
 
 \subsubsection{Unmounting}
-\includegraphics[width=0.6\linewidth]{img/react_unmounting.png}
+\textbf{1. componentWillUnmount():} Aufräumen
 
 \subsubsection{Error Handling}
-\includegraphics[width=0.7\linewidth]{img/react_error_handling.png}
+\textbf{1. getDerivedStateFromError(error):} Error im state abbilden.
+\textbf{2. componentDidCatch(error, info):} Logging, Verhindert porpagieren von Fehler.
 
 \subsection{React Router}
-\begin{itemize}
-    \item Komponentenbibliothek
-    \item Komponenten anzeigen oder verstecken abhängig von der URL
-    \item Für React Web und React Native
-\end{itemize}
+Komponentenbibliothek.
+Komponenten anzeigen oder verstecken abhängig von der URL.
+Für React Web und React Native.
 
 \subsubsection{Router Komponenten}
 \begin{lstlisting}
 <Router>
 \end{lstlisting}
-Alle Routen müssen Teil des Routers sein, typischerweise nahe der Root-Komponente
+Alle Routen müssen Teil des Routers sein.
 \begin{lstlisting}
 <Route exact path="/" component={Home} />
 \end{lstlisting}
-Home-Komponente wird nur gerendert, wenn der path (exakt) matcht.
-Mehrere Route Elemente können gleichzeitig aktiv sein.
 \begin{lstlisting}
 <Link to="/">Home</Link>
 \end{lstlisting}
@@ -144,12 +120,9 @@ Wird ausgeführt, sobald gerendert.
 Zusammengehörender Code ist auf mehrere Methoden verteilt (Mount/Unmount).\\
 \textbf{Problem von Klassen-State}
 State ist über verschiedene Methoden verteilt\\
-\textbf{Fazit:}
-\begin{itemize}
-    \item Lifecycle und State ohne Klassen machen react verständlicher
-    \item Klassen sind weiterhin unterstützt
-    \item Hooks erlauben, Logik mit Zustand einfacher wiederzuverwenden
-\end{itemize}
+\textbf{Fazit:} Lifecycle und State ohne Klassen machen react verständlicher.
+Klassen sind weiterhin unterstützt.
+Hooks erlauben, Logik mit Zustand einfacher wiederzuverwenden.
 
 \subsubsection{State Hook}
 \begin{lstlisting}
@@ -199,7 +172,7 @@ const theme = useContext(c); // consumer
 \end{lstlisting}
 
 \subsection{Redux}
-Library für Statemanagement (Repräsentation / Veränderung / Benachrichtigung).
+Library für Statemanagement.
 State wird als Tree (immutable) von Objekten dargestellt.
 Veränderung am Tree führt durch den Reducer zu einem neuen Tree t+1 (funktionale Programmierung).
 State wird im \textbf{Store} verwaltet.
@@ -226,18 +199,6 @@ function balance(state = 0, action) {
 \end{lstlisting}
 \textbf{Reducer kombinieren:} Jeder Reducer erhält einen Teil des States, für den er zuständig ist.
 Resultat wird in einem neuen State-Objekt kombiniert.
-\begin{lstlisting}
-function rootReducer(state = {}, action) {
-    return {
-        balance: balance(state.balance, action),
-        transactions: transactions(state.transactions, action)
-    }
-}
-// Hilfsfunktion combineReducers:
-const rootReducer = combineReducers({
-    balance, transactions
-});
-\end{lstlisting}
 
 \subsubsection{Store erstellen}
 \begin{lstlisting}
