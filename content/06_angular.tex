@@ -7,6 +7,8 @@ Dependency Injection Mechanism.
 JS-optimized 2-way binding.
 Clearly structured, information hiding.
 Increases testability / maintainability of client-side code.
+Routing Modularity.
+
 
 \subsection{Architecture}
 \textbf{ngModules:} Cohesive block of code dedicated to closely related set of capabilities. (\textit{module})
@@ -29,12 +31,12 @@ Modules can accommodate sub-modules. All public TS members are exported as an ov
 \textit{exports:} Subset of declarations that should be visible and usable by other modules.\\
 \textit{imports:} Specifies the modules which exports/providers should be imported.
 \begin{itemize}
-    \item forChild-Import: returns an object with a \textbf{providers} and \textbf{ngModule} property
+    \item forChild-Import:
     \begin{itemize}
         \item allows you to configure services for the current Module level
         \item Use if you need to configure the foreign module
     \end{itemize}
-    \item forRoot-Import:  returns an object with a \textbf{providers} and \textbf{ngModule} property
+    \item forRoot-Import: 
     \begin{itemize}
         \item It provides and condigures services at the same time
         \item Will instantiate the required services exactly once, globally
@@ -90,11 +92,14 @@ To hook into the lifecycle, interfaces of the Angular core can be implemented.
 Each interface has a single hook method, prefixed with \textit{ng}. (\textbf{OnInit} contains method \textit{ngOnInit}).\\
 
 \endgroup
-\includegraphics[width=0.7\linewidth]{img/angular_component_lifecycle2.png}
 
 
 \subsubsection{Content Projection}
-\includegraphics[width=\linewidth]{img/angular_content_projection.png}
+\begin{lstlisting}
+<ng-content select='[wed-title]'></ng-content> 
+<ng-content select='menu'></ng-content> 
+// <h1 wed-title></h1> ... <menu>...</menu>
+\end{lstlisting}
 
 \subsection{Templates}
  Angular \textbf{extends the HTML5} with:
@@ -106,7 +111,19 @@ Template Reference Variables,
 Template Expression Operators
 
 \subsubsection{Binding}
-\includegraphics[width=\linewidth]{img/angular_bindings.png}
+\textbf{Two Way Binding: [(...)]}
+\begin{lstlisting}
+<input [(ngModel)]="counter.team" />
+\end{lstlisting}
+\textbf{From View to Model - Event Binding: (...)}
+\begin{lstlisting}
+<button (click)="counter.eventHandler($event)">
+\end{lstlisting}
+\textbf{From Model to View - Property Binding: [...] / {{...}}}
+\begin{lstlisting}
+<p>{{counter.team}}</p>
+<img [attr.alt]="counter.team" src="team.jpg">
+\end{lstlisting}
 Binding targets must be declared as \textbf{Inputs or Outputs:} Targets stand on the left side of the binding declaration.
 \includegraphics[width=\linewidth]{img/angular_input_output_properties.png}
 \includegraphics[width=0.5\linewidth]{img/angular_input_output_properties2.png}
@@ -117,13 +134,21 @@ TypeScript class with an \textit{@Directive()} function decorator.
 \subsubsection{Attribute Directives}
 Changes the appearance or behaviour of an element, component or another directive.
 Applied to a host element as an attribute.
-\includegraphics[width=0.6\linewidth]{img/angular_attribute_directives.png}
+\begin{lstlisting}
+// NgStyle
+<div [style.font-size]="big ? 'big':'smol'"></div>
+// NgClass
+<div [class.special]="isSpecial"></div>
+\end{lstlisting}
 \subsubsection{Structural Directives}
 Responsible for HTML layout.
 Reshape the DOM's structure by adding, removing or manipulating elements.
 Applied to a host element as an attribute.
-Asterisk (*) precedes the directive attribute name.\\
-\includegraphics[width=0.7\linewidth]{img/angular_structural_directive.png}\\
+Asterisk (*) precedes the directive attribute name.
+\begin{lstlisting}
+<div *ngIf="hasTitle"></div> // NgIf
+<li *ngFor="let elements of elements"></li> // NgFor 
+\end{lstlisting}
 \textbf{NgTemplates:}\\
 \includegraphics[width=0.8\linewidth]{img/angular_ng_templates.png}\\
 Aren't rendered directly.
@@ -134,8 +159,11 @@ Can be referenced by their \textit{\#id}:\\
 \subsubsection{Template Reference Variables}
 References a DOM element within a template.
 Can also be a reference to an component or directive.
-A hash (\#) declares a reference variable.\\
-\includegraphics[width=0.7\linewidth]{img/angular_template_reference.png}
+A hash (\#) declares a reference variable.
+\begin{lstlisting}
+<input ... #phone />
+<button (onclick)="callPhone(phone.value)">... 
+\end{lstlisting}
 
 
 \subsection{Services}
@@ -148,7 +176,6 @@ Therefore, services must be registered within the DI container.
 export class CounterService { /* ... */ }
 \end{lstlisting}
 \textit{providedIn: 'root'}: The service is registered for the whole application.
-\includegraphics[width=\linewidth]{img/angular_services.png}
 
 
 \subsection{Forms}
@@ -166,14 +193,7 @@ Validation logic is also part of the controller (easier to test).
 Reads out the value of the model for the first time.
 Updates are automatically written back into the bound model.\\
 \textbf{Validation:} Reference the [ngModel] directive and check its valid property.\\
-\textbf{Submitting the form:}\\
-\includegraphics[width=0.8\linewidth]{img/angular_forms_submit.png}
-
-
-\subsection{Asynchronous Services}
-\textbf{Event Emitter example:}\\
-\includegraphics[width=\linewidth]{img/angular_asynchronous_services.png}
-\includegraphics[width=\linewidth]{img/angular_asynchronous_services2.png}
+\textbf{Submitting the form:}
 
 \subsection{Data Access}
 \subsubsection{HTTP Client API}
@@ -217,13 +237,9 @@ Defines where the Router should display the views.
 \textbf{Route Configuration:}
 \begin{lstlisting}
 const appRoutes: Routes = [
-    // matches /hero/42, 42 saved in param
     {path: 'hero/:id', component: 'Hero'},
-    // redirect
     {path: '', redirectTo: '/heroes', pathMatch: 'full'},
-    // Wildcard route
-    {path: '**', component: PageNotFound}
-];
+    {path: '**', component: PageNotFound} ];
 \end{lstlisting}
 The router uses a first-match-wins strategy.\\
 \textbf{Lazy Loading Configuration}\\
@@ -244,8 +260,6 @@ Do not expose to the Service API.\\
 \textbf{Data Resources:} Return cold Observables.
 Must be converted into a hot Observable (\textit{share()}).\\
 \textbf{Observable Business Data Service Example:}
-\includegraphics[width=\linewidth]{img/angular_observable_business_data_service.png}
-\includegraphics[width=\linewidth]{img/angular_observable_business_data_service2.png}
 
 \subsubsection{Flux Architecture}
 Invented by Facebook.
@@ -284,7 +298,6 @@ Angular does not provide Filter- / OrderBy-Pipes because of poor performance.\\
 \textbf{Custom-Pipes:} A class decorated with \textit{@Pipe()}.
 It implements the PipeTransform interface's \textit{transform()} method.
 Needs to be added to the declarations of the current Module.
-\includegraphics[width=\linewidth]{img/angular_pipes.png}
 \textbf{Async Pipes:} Binds Observables directly to the UI.
 Changes are automatically tracked.
 Automatically subscribes and unsubscribes from the bound Observable.\\

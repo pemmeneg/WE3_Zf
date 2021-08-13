@@ -5,15 +5,14 @@
 Library, kein Framework.
 Um UIs zu bauen.
 View in MVC.
-Minimales Featureset.
+Minimales Featureset (Lightweight). SEO-Friendly.
+Good performance.
 
 \subsubsection{Prinzipien}
 \begin{itemize}
     \item Komplexes Problem aufteilen in einfachere Komponenten
     \item Für eine bessere: Wiederverwendbarkeit, Erweiterbarkeit, Wartbarkeit, Testbarkeit, Aufgabenverteilung
 \end{itemize}
-
-\subsection{Entwicklung von UIs}
 Beschreibung des UIs.
 Event-Handling.
 Aktualisieren der Views.
@@ -23,13 +22,21 @@ Aktualisieren der Views.
     \item Funktionen die HTML zurückgeben
     \item Beliebige Komposition von React-Elementen und DOM-Elementen
 \end{itemize}
-\includegraphics[width=0.6\linewidth]{img/react_component.png}
 
 \subsection{JavaScript XML}
+\begingroup
+\setlength{\intextsep}{0pt}
+\setlength{\columnsep}{5pt}
+\begin{wrapfigure}{r}{0.4\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{img/react_jsx.png}
+\end{wrapfigure}
 React verwendet JSX (blau), eine Erweiterung von JavaScript (gelb).
-Überall wo JSX verwendet wird, muss $react$ importiert werden.\\
-\includegraphics[width=0.6\linewidth]{img/react_jsx.png}\\
+Überall wo JSX verwendet wird, muss $react$ importiert werden.
 \textbf{Styles:} werden nicht als Strings sondern als Object angegeben.
+
+\endgroup
+
 
 \subsubsection{Props}
 Komponenten erhalten alle Parameter/Properties als \textbf{props} Objekt.
@@ -41,8 +48,7 @@ Immer \textbf{read-only}.
 \begin{lstlisting}
 ReactDOM.render(
     <App/>
-    document.getElementById('root')
-)
+    document.getElementById('root') )
 \end{lstlisting}
 
 \subsection{React State}
@@ -51,20 +57,17 @@ Ist immer privat.
 Ändert der State, wird auch die Komponente aktualisiert.
 \begin{lstlisting}
 class Counter extends React.Component {
-    state = { counter: 0 }
-    // ...
-}
+    state = { counter: 0 } }
 \end{lstlisting}
 
 \subsubsection{Event Handler}
 \begin{lstlisting}
 const increment = () => {
-    this.setState({counter: this.state.counter + 1})
-} // ...
+    this.setState({counter: this.state.counter + 1}) }
 <button onClick={this.increment}>
 \end{lstlisting}
 
-\subsection{Reconciliation}
+\subsection{Reconciliation / Virtueller DOM}
 \begin{enumerate}
     \item React Komponenten werden als virtueller DOM gerendert
     \item Wird der \textbf{state} geändert, erstellt React einen virtuellen DOM
@@ -127,10 +130,7 @@ Hooks erlauben, Logik mit Zustand einfacher wiederzuverwenden.
 \subsubsection{State Hook}
 \begin{lstlisting}
 function Counter() {
-    const [count, setCount] = useState(0);
-    // button => setCount(count + 1)
-    return( <p>{count}</p> );
-}
+    const [count, setCount] = useState(0); }
 \end{lstlisting}
 \textbf{Mehrere State-Variablen:} useState Aufrufe müssen immer in derselben Reihenfolge gemacht werden.
 
@@ -140,35 +140,7 @@ useEffect(() => {
     // Mount stuff
     return () => {
         // Unmount stuff
-    }
-}, [] /* <= Dependencies */);
-\end{lstlisting}
-
-\subsection{Flow}
-\begin{itemize}
-    \item Erweitert JavaScript um Typenannotationen
-    \item Typ-Annotation im Code Typ-Inferenz für lokale Definitionen
-    \item Generics, Maybe-Types, Union and Intersection-Types
-\end{itemize}
-
-\subsection{TypeScript und React}
-\begin{itemize}
-    \item Mehr Typensicherheit in React-Komponenten
-    \item Props und State lassen sich typisieren
-\end{itemize}
-\textbf{Vorteil gegenüber Flow:}
-\begin{itemize}
-    \item Vollwertige Programmiersprache
-    \item Besser unterstützt von Libraries und IDEs
-    \item TypeScript Fehler müssen korrigiert werden
-\end{itemize}
-
-\subsection{React Context}
-Ermöglicht es, Props für alle Unterkomponenten zur Verfügung zu stellen. (Theme Variablen)
-\begin{lstlisting}
-// provider
-const c = React.createContext(themes.light);
-const theme = useContext(c); // consumer
+    } }, [] /* <= Dependencies */);
 \end{lstlisting}
 
 \subsection{Redux}
@@ -193,9 +165,7 @@ function balance(state = 0, action) {
         case 'TRANSFER':
             return (state + action.amount);
         default:
-            return state;
-    }
-}
+            return state;  } }
 \end{lstlisting}
 \textbf{Reducer kombinieren:} Jeder Reducer erhält einen Teil des States, für den er zuständig ist.
 Resultat wird in einem neuen State-Objekt kombiniert.
@@ -209,27 +179,6 @@ In Kombination mit React führt das zu einem re-rendering der Komponenten.
 
 \subsection{React \textless 3 Redux}
 \textbf{Redux mit React verbinden:}
-\begin{lstlisting}
-const mapStateToProps = (state) => {
-    return {
-        transactions: state.transactions
-    }
-}
-const mapDispatchToProps = {
-    fetchTransactions
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
-
-// Root Komponente
-const store = createStore(
-    rootReducer, applyMiddleware(thunkMiddleware));
-render(
-    <Provider store={store}>
-        <App />
-    </Provider>
-    document.getElementById('root')
-)
-\end{lstlisting}
 \textit{mapStateToProps:} erhält State und kann daraus Props ableiten.\\
 Die Komponente bekommt auch die \textit{dispatch} Methode des Stores als Prop.
 Das Resultat von \textit{connect} ist eine React-Komponente die mit dem Store verbunden ist.\\
@@ -243,10 +192,7 @@ function fetchTransactions(token) {
         dispatch({type: "FETCH_TRANSACTIONS_STARTED"});
         api.getTransactions(token)
             .then(({result: transactions}) => {
-                dispatch({type: "FETCH_TRANSACTIONS_SUCCEEDED", transactions});
-            })
-    };
-}
+                dispatch({type: "FETCH_TRANSACTIONS_SUCCEEDED", transactions}); }) }; }
 \end{lstlisting}
 
 \subsubsection{Selectors}

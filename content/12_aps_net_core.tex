@@ -5,70 +5,23 @@
 \textbf{Weshalb:} Enterprise Framework, Kompilierbare Sprache (C\#), Komplett neue Entwicklung, Lauf auf allen Betriebssystemen.
 \textbf{Convention over Configuration}.
 
-\subsection{C\#}
-\begin{lstlisting}
-// Anonyme Typen
-var v =  new { Amount = 100, Message = "Arsch" }
-// keine Typechecks / IntelliSense
-dynamic person = new ExpandoObject();
-// Extesion Methods
-public static class MyExtensions {
-    public static int WordCount(this string str) {
-        return str.Split(new char[] {' ', '.'}).length;
-    }
-}
-\end{lstlisting}
-
-\subsection{Middleware}
-\begin{lstlisting}
-// Register Middleware
-app.Use(async (context, next) => {
-    System.Diagnostics.Debug.WriteLine("go req");
-    await next.Invoke();
-    System.Diagnostics.Debug.WriteLine("end");
-});
-// Verzweigung für Pfad erzeugen
-app.Map("/logging", builder => {
-    builder.Run(async (context) => {
-        await context.ResponseWriteAsync("Arsch");
-    });
-});
-// Request terminieren, keine neue Middleware
-app.Run(async (context) => {
-    await context.Response.WriteAsync("Yo");
-});
-\end{lstlisting}
-
 \subsection{Dependency Injection}
 ASP.NET kommt mit einem primitiven DI Container.\\
 \textbf{Idee:} Klasse erwähnt welche Interfaces benötigt werden.
 Ein Resolver sucht im Container nach einer geeigneten Klasse und übergibt diese.\\
 \textbf{DI - Registrierung}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 public class Startup {
-    // called by runtime, Used to add services
     public void ConfigureServices(IserviceCollection services) {
         services.AddTransient<IUserService, UserService>();
+        services.AddControllers();
+        services.AddMvc();
     }
-    // Called by runtime, Configure HTTP req pipeline
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
-        app.UseMiddleware<UserMiddleware>();
-    }
-}
-\end{lstlisting}
-\textbf{DI - Nutzen}
-\begin{lstlisting}
-public class UserMiddleware {
-    private readonly RequestDelegate _next;
-    // Captive Dependency*
-    public UserMiddleware(RequestDelegate next, IUserService userService) {
-        _next = next;
-    }
-    // No Captive Dependency
-    public async Task Invoke(HttpContext context, IUserService userService) {
-        await context.Response.WriteAsync(string.Join(", ", userService.Users));
-    }
-}
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+        app.UseRouting();
+        app.UseEndpoints(endpoints => {
+            endpoints.MapControllers();
+            endpoints.MapRazorPages();  }); } }
 \end{lstlisting}
 \subsubsection{Lifetime}
 \textbf{Transient:} Created each time they are requested.
@@ -86,49 +39,36 @@ Komponenten dürfen sich nur Komponenten mit gleicher oder längerer Lebensdauer
 \textbf{Startup.cs:} Konfiguriert die WebApp.
 
 \subsection{Razor}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 @{  var name = "John Doe"; 
     var weekDay = DateTime.Now.DayOfWeek; }
 <p>Hello @name, today is @weekDay</p>
+@foreach(var item of todos) {
+    <p>@item.text</p>
+}
+@if(/* ... */)
 \end{lstlisting}
 
 \subsubsection{Wichtige Dateien}
 \textbf{Shared/\_layout.cshtml:} Generelles layout der App.
 Definiert Sections (Placeholders), welche von der Page gefüllt werden.\\
 \textbf{\_Layout.cshtml:} Struktur der Webseite, identisch für jede Seite.
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 @RenderBody() // Platz für Content
 @RenderSection("Nav", false); // Platz für Section
 @section Nav{ /* ... */ }
 \end{lstlisting}
 \textbf{\_ViewStart.cshtml:} Hierarchisch, Code welcher vor den Razor-Files ausgeführt wird.
 Definiert z.B. das Layout für alle Pages
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 @{ Layout = "_Layout"; }
 \end{lstlisting}
 \textbf{\_ViewImports.cshtml:} Hierarchisch, Namespaces / Tag-Helpers können in diesem File registriert werden.
 
-\subsubsection{Tag Helpers}
-Ermöglichen C\# Code an HTML Tags zu binden.
-Bsp: Email-Tag durch Link Tag ersetzen.
-\begin{lstlisting}
-public class EmailTagHelper : TagHelper {
-    public string MailFor { get; set; }
-    public override void Process(TagHelperContext context, TagHelperOutput output) {
-        output.TagName= "a";
-        output.Attributes.SetAttribute("href", "mailto:" + MailFor);
-        output.Content.SetContent(MailFor);
-    }
-}
-// Helper im ViewImports-file registrieren
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@addTagHelper *, DataBinding
-\end{lstlisting}
-
 \subsubsection{Partials}
 Markup Files, verwendet innerhalb von anderen Markup Files. 
 Bessere Aufteilbarkeit und Wiederverwendbarkeit.
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 <partial name="_Card" for="Card1" />
 <partial name="_Card" model="..." />
 \end{lstlisting}
@@ -140,7 +80,7 @@ Rendert ein Teil der Webseite.\\
 \textbf{Unterschied zu Pages:} Rendern nur ein Teil der Seite.\\
 \textbf{Location:} \textit{/ViewComponents}\\
 Razor-File: \textit{Pages/Shared/Components/[ComponentName]/[ViewName]}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 public class ToDoList: ViewComponent {
     public string[] Todos { get; set; }
     public ToDoList() { /* ... */ }
@@ -174,14 +114,14 @@ Bei einem Aufruf wird im Folder \textit{/pages/} nach einer Page gesucht und aus
 
 \subsubsection{MVVM}
 \textbf{*.cshtml:} View mit Razor
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 @page
 @model HelloWorldModel
 @{ ViewData["Title"] = "HelloWorld"; }
 <h1>@Model.HelloWorld</h1>
 \end{lstlisting}
 \textbf{*.cshtml.cs:} View Model
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 public class HelloWorldModel : PageModel {
     public string HelloWorld { get; set; }
     public void OnGet() {
@@ -193,18 +133,14 @@ public class HelloWorldModel : PageModel {
 \subsubsection{Model}
 Pro HTTP-Verb kann im VM eine Funktion definiert werden, die davor aufgerufen wird (OnGet / OnPost etc.).\\
 \textbf{Body und Query werden automatisch gemappt:} Parameter werden als Argumente übergeben.
-\begin{lstlisting}
-public void OnPost(string echoText, long times) {
-    EchoText = echoText;
-    Times = times;
-}
+\begin{lstlisting}[language=csh]
 // Param können als Klasse übernommen werden
 public void OnPost(EchoModel data) {
     Data = data;
 }
 // Ohne kopieren der Properties
 public class PostModel : PageModel {
-    [BindProperty]
+    [BindProperty(SupportsGet = true)]
     public string EchoText { get; set; }
 }
 \end{lstlisting}
@@ -213,14 +149,13 @@ public class PostModel : PageModel {
 \textbf{@page}: Definiert das Razor-File als Page\\
 \textbf{@page "/test/\{id?\}":} Überschreibt die Default-Routing-Informationen\\
 \textbf{Zugriff auf Routing Parameter:}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 // Im Razor-File
 @page "/test/{id:int?}"
 <p>ID: @RouteData.Values["id"]</p>
 // Im Model
-public int Id { get; set; }
 [BindProperty(SupportsGet = true, Name = "Id")]
-public int Id2 { get; set; }
+public int Id { get; set; }
 public void OnGet(int id) { Id = id; }
 \end{lstlisting}
 
@@ -228,10 +163,13 @@ public void OnGet(int id) { Id = id; }
 \subsubsection{Handlers}
 Pages können Actions als handler anbieten.\\
 \textbf{Namenskonvention:} \textit{On[Method][Name]}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 public IActionResult OnPostEcho(strong echoText) {
-    return this.Content(echoText);
-}
+    return this.Content(echoText); }
+// Ajax Razor Form
+<form asp-page="Ajax" asp-page-handler="Echo" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#output">
+  <input name="echoText" /><input type="submit" />
+</form>
 \end{lstlisting}
 \textbf{Zugriff:} \textit{[Method]: /[Page]?handler=[HandlerName]}\\
 Bsp: POST auf \textit{/Ajax?handler=echo}\\
@@ -263,12 +201,12 @@ Aktuell nur über Konsole: \textit{dotnet ef database update}
 Attribute sind kombinierbar.
 \subsubsection{Schritt 2: Razor anpassen}
 \textbf{Validation ins DOM einfügen:}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 <div asp-validation-summary="ModelOnly"></div>
 <span asp-validation-for="Item.Name"></span>
 \end{lstlisting}
 \textbf{JQuery Validation einbinden:}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 @section Scripts {
     <script src=".../jquery.validate.js"></script>
     <script src=".../...unobtrusive.js"></script>
@@ -276,7 +214,7 @@ Attribute sind kombinierbar.
 \end{lstlisting}
 
 \subsubsection{Schritt 3: Serverseitige Validierung}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 [HttpPost]
 public ActionResult Index(Order order) {
     if(ModelState.IsValid) {
@@ -300,7 +238,7 @@ public ActionResult Index(Order order) {
 
 \subsubsection{Aktivierung \& Konfiguration}
 \textbf{Startup.cs:}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 services.AddDefaultIdentity<IdentityUser>() // DI
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -317,7 +255,7 @@ services.AddDefaultIdentity<IdentityUser>( options => {
 \textbf{Attribute:}\\
 \textit{[Authorize]:} User muss authentifiziert sein (Controller/Actions)\\
 \textit{[AllowAnonymous]:} Ausnahme für spezifische Action
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 this.User // Eingeloggter User Typ: ClaimsPrincipal
 // CRUD Operationen über ApplicationUsers von DI
 var user = await _userManager.GetUserAsync(User);
@@ -326,19 +264,17 @@ var id = _userManager.GetUserId(User);
 \textbf{Claim:} Statement über einen User, ausgestellt von einem Identity Provider.\\
 
 \subsubsection{Authentifizierung Prüfen}
-\begin{lstlisting}
-// Automatisch
-[Authorize]
+\begin{lstlisting}[language=csh]
+[Authorize] // Automatisch
 public ActionResult Create() { return View(order); }
-// Manuell
-public ActionResult Create() {
+public ActionResult Create() { // Manuell
     if(User.Identity.IsAuthenticated) { /* ... */ }
     else { return new StatusCodeResult(401); }
 }
 \end{lstlisting}
 
 \subsection{Authorisierung}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 // Lösung 1: Attribute:
 [Authorize(Roles = "Admin, PowerUser")]
 [Authorize(Policy = "OlderThan18")]
@@ -349,70 +285,27 @@ var isInRole =
 User.HasClaim(ClaimTypes.Role, "Admin")
 \end{lstlisting}
 
-\subsubsection{Policy}
-Ermöglichen es, komplexere Regeln zu definieren.
-\begin{lstlisting}
-options.AddPolicy("Founders", policy => {
-    policy.RequireAuthenticatedUser();
-    policy.RequireClaim(ClaimTypes.Name, "joe", "");
-});
-\end{lstlisting}
-
 \subsubsection{Authorizierung mit Razor}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 @inject UserManager<ApplicationUser> manager;
 @inject ApplicationDbContext context;
-@{
-    var user = await manager.GetUserAsync(User);
+@{  var user = await manager.GetUserAsync(User);
     if(user != null &&
         await manager.IsInRoleAsync(user, "Admin"))
-        { /* ... */ }
-}
+        { /* ... */ } }
 \end{lstlisting}
 
 \subsection{Testing}
-\textbf{Unit Test mit ASP.NET}
-\begin{lstlisting}
+\begin{lstlisting}[language=csh]
 public class UnitTest {
     [Fact]
-    public void TestName() { /* ... */ }
-}
+    public void TestName() { /* ... */ }}
 \end{lstlisting}
 
 \subsection{App Secrets}
 Ermöglicht es, Secrets in einem separaten File zu persistieren.
-\begin{lstlisting}
-// Wert setzen:
-dotnet user-secrets set "admin-pwd" "123456"
-// Wert nutzen:
-if(env.IsDevelopment()) {
-    builder.AddUserSecrets<Startup>(); }
-app.ApplicationServices.GetService<DataService>()
-    .EnsureData(Configuration["admin-pwd"]);
-\end{lstlisting}
 
 \subsection{API Routing}
-\subsubsection{Startup}
-Nur die nötigen Services und Endpoints registrieren.
-\begin{lstlisting}
-public void ConfigureServices(IServiceCollection services) {
-    services.AddRazorPages();
-    services.AddControllersWithViews();
-    services.AddControllers();
-    services.AddMvc();
-}
-public void Configure(IApplicationBuilder app,
-                    IWebHostEnvironment evn) {
-    app.UseRouting();
-    app.UseEndpoints(endpoints => {
-        endpoints.MapControllers();
-        endpoints.MapRazorPages();
-        endpoints.MapBlazorHub();
-    });
-}
-\end{lstlisting}
-
-\subsubsection{Verwendung}
 Funktioniert über Attribute. \textit{[Route]} definiert einen neuen Eintrag im Router.
 \textit{[HttpMethod]} bei Actions ist required.\\
 \includegraphics[width=0.45\linewidth]{img/asp_api_routing.png}

@@ -13,36 +13,5 @@ SEO - Search engines must execute JavaScript,
 More complex deployment strategies
 
 \subsection{SPA}
-Fits on a single web page, user experience of a desktop application.
-All code is retrieved with a single page load or resources are dynamically loaded.
-AJAX and HTML5 to create responsive Web apps, without constant page reloads.
-
-\subsubsection{Bundling}
-Code delivered over potentially slow networks.
-Bundling and minifying the source leads to smaller SPA footprint.
-Larger SPAs with many modules need dependency management.
-Initial Footprint reduced by loading dependent modules on-demand.
-
-\subsubsection{WebPack as Bundler}
-\textbf{Entry:} Start, follows the graph of dependencies to know what to bundle.
-\textbf{Output:} Tell webpack where to bundle your application.
-\textbf{Loaders:} Transforms these files into modules as they are added to your dependency graph.
-\textbf{Plugins:} Perform tasks like bundle optimization, asset management and injection of env variables.
-\textbf{Mode:} Enable built-in optimization mechanisms.
-
-\subsection{Routing}
-Completely on client-side by JS. 
-Navigation behaves as usual.
-Browser needs to fake the URL to change and store page state.
-\textit{window.history.pushState}.
-
-\subsection{Dependency Injection}
-Reduces coupling between consumer and implementation.
-Contracts between classes are based on interfaces.
-Supports the open/closed principle.
-Allows flexible replacement of an implementation.
-
-\subsubsection{Decorators}
-Provide a way to add annotations / meta-programming syntax.
-Can be attached to a class declaration, method, accessor, property or parameter.
-Widely used in Angular.
+\textbf{Pros:} Fits on a single web page, user experience of a desktop app, all code retrieved with single page load / dynamically loaded.
+\textbf{Cons:} More overhead, more complexity, more JS dependant, dependency management

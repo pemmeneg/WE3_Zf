@@ -1,4 +1,4 @@
-\documentclass[a4paper, 6pt, landscape]{scrartcl}
+\documentclass[a4paper, 5pt, landscape]{scrartcl}
 \usepackage[german]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
@@ -41,6 +41,7 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{darkGreen}{RGB}{0,150,0}
 \definecolor{DarkPurple}{rgb}{0.4, 0.1, 0.4}
+\definecolor{cshbg}{RGB}{215,245,255}
 
 \lstdefinelanguage{JavaScript}{
 keywords={const, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
@@ -52,6 +53,39 @@ comment=[l]{//},
 morestring=[b]',
 morestring=[b]"
 }
+
+\lstdefinelanguage{csh}
+{
+  % list of keywords
+  morekeywords={
+    abstract, event, new, struct, syntax, option, package, service, message, returns, repeated
+as, explicit, null, switch,
+base, extern, object, this,
+bool, false, operator, throw,
+break, finally, out, true,
+byte, fixed, override, try,
+case, float, params, typeof,
+catch, for, private, uint,
+char, foreach, protected, ulong,
+checked, goto, public, unchecked,
+class, if, readonly, unsafe,
+const, implicit, ref, ushort,
+continue, in, return, using,
+decimal, int, int32, int16, int64 sbyte, virtual,
+default, interface, sealed, volatile,
+delegate, internal, short, void,
+do, is, sizeof, while, get,
+double, lock, stackalloc,
+else, long, static,
+enum, namespace, string, var, volatile, Task, Parallel, Thread
+  },
+  sensitive=true, % keywords are not case-sensitive
+  morecomment=[l]{//}, % l is for line comment
+  morecomment=[s]{/*}{*/}, % s is for start and end delimiter
+  morestring=[b]",
+  backgroundcolor=\color{cshbg}
+}
+
 
 \lstset{
 language=JavaScript,
@@ -70,6 +104,8 @@ breaklines = true,
 aboveskip = 0em,
 belowskip = 0em
 }
+
+
 
 
 % Define Section Format
